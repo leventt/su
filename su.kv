@@ -1,0 +1,119 @@
+#:set unit 16
+
+<Canvas>:
+    translation_touches: 2
+    do_rotation: False
+    scale_min: 0.5
+    scale_max: 2
+    do_collide_after_children: True
+
+<NodeContainer>:
+    col_force_default: True
+    col_default_width: unit*4
+    row_force_default: True
+    row_default_height: unit
+
+    nameSize: 0,0
+
+    canvas.after:
+        Rectangle:
+            texture: root.nameTexture
+            pos: root.center_x - self.nameSize[0]/2, root.top - self.nameSize[1]
+            size: root.nameSize
+
+<Edge>:
+    fromX: 0
+    fromY: 0
+    toX: 0
+    toY: 0
+
+    width: 2
+
+    canvas:
+        Color:
+            rgba: 1,1,1, .5
+        Line:
+            bezier: (self.fromX, self.fromY, self.fromX + abs(self.fromX - self.toX)*45.0/100.0, self.fromY, self.toX - abs(self.fromX - self.toX)*45.0/100.0, self.toY, self.toX, self.toY)
+            width: self.width
+
+<Port>:
+    isInPort: False
+    edge: edge
+    size: unit*4,unit
+
+    source: 'res/port.png'
+
+    Edge:
+        id: edge
+        app: root.app
+
+        width: 0.1
+
+        fromX: root.center_x
+        fromY: root.center_y
+        toX: root.center_x
+        toY: root.center_y
+
+<NodeEmpty>:
+    port: None
+    size: unit*4,unit
+    source: 'res/default.png'
+
+<NodeTopLeft>:
+    port: None
+    size: unit*4,unit
+    source: 'res/leftTopCorner.png'
+
+<NodeTopRight>:
+    port: None
+    size: unit*4,unit
+    source: 'res/rightTopCorner.png'
+
+<NodeBottomLeft>:
+    port: None
+    size: unit*4,unit
+    source: 'res/leftBottomCorner.png'
+
+<NodeBottomRight>:
+    port: None
+    size: unit*4,unit
+    source: 'res/rightBottomCorner.png'
+
+<NodeIn>:
+    port: port
+    size: unit*4,unit
+    source: 'res/in.png'
+
+    textSize: 0,0
+
+    canvas.after:
+        Rectangle:
+            texture: root.textTexture
+            pos: root.x + unit/2, root.top - self.textSize[1]
+            size: root.textSize
+
+    Port:
+        id: port
+        app: root.app
+
+        isInPort: True
+        center: root.center_x - root.width/2, root.center_y
+
+<NodeOut>:
+    port: port
+    size: unit*4,unit
+    source: 'res/out.png'
+
+    textSize: 0,0
+
+    canvas.after:
+        Rectangle:
+            texture: root.textTexture
+            pos: root.right - root.textSize[0] - unit/2, root.top - self.textSize[1]
+            size: root.textSize
+
+    Port:
+        id: port
+        app: root.app
+
+        center: root.center_x + root.width/2, root.center_y
